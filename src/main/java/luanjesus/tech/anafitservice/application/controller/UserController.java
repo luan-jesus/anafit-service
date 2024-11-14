@@ -1,5 +1,6 @@
 package luanjesus.tech.anafitservice.application.controller;
 
+import lombok.AllArgsConstructor;
 import luanjesus.tech.anafitservice.application.service.UserService;
 import luanjesus.tech.anafitservice.domain.user.User;
 import org.springframework.http.ResponseEntity;
@@ -13,12 +14,9 @@ import java.util.List;
 
 @RequestMapping("/users")
 @RestController
+@AllArgsConstructor
 public class UserController {
     private final UserService userService;
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
 
     @GetMapping("/me")
     public ResponseEntity<User> authenticatedUser() {
@@ -29,9 +27,9 @@ public class UserController {
         return ResponseEntity.ok(currentUser);
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<User>> allUsers() {
-        List <User> users = userService.allUsers();
+        List<User> users = userService.allUsers();
 
         return ResponseEntity.ok(users);
     }
