@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RequestMapping("/users")
+@RequestMapping("/v1/users")
 @RestController
 @AllArgsConstructor
 public class UserController {
