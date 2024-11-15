@@ -1,6 +1,5 @@
-package luanjesus.tech.anafitservice.domain.workout;
+package luanjesus.tech.anafitservice.domain.task;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,7 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,13 +16,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import luanjesus.tech.anafitservice.domain.user.User;
+import luanjesus.tech.anafitservice.domain.workout.Workout;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.sql.Date;
-import java.util.List;
+import java.time.LocalDate;
 
-@Table(name = "t_workout")
+@Table(name = "t_task")
 @Entity
 @Getter
 @Setter
@@ -31,7 +30,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Workout {
+public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
@@ -40,22 +39,31 @@ public class Workout {
     @Column(nullable = false)
     private String name;
 
-    @Column
+    @Column(nullable = false)
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @Column(nullable = false)
+    private TaskType type;
 
-    @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL, orphanRemoval = true)
-    @ToString.Exclude
-    private List<WorkoutExercise> exercises;
+    @Column(nullable = false)
+    private TaskStatus status;
+
+    @Column(nullable = false)
+    private LocalDate date;
+
+    @OneToOne
+    @JoinColumn(name = "workout_id")
+    private Workout workout;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @CreationTimestamp
     @Column(updatable = false, name = "created_at")
-    private Date createdAt;
+    private LocalDate createdAt;
 
     @UpdateTimestamp
     @Column(name = "updated_at")
-    private Date updatedAt;
+    private LocalDate updatedAt;
 }
