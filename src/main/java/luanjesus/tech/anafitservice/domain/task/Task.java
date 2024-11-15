@@ -2,6 +2,8 @@ package luanjesus.tech.anafitservice.domain.task;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -43,9 +45,11 @@ public class Task {
     private String description;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private TaskType type;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private TaskStatus status;
 
     @Column(nullable = false)
@@ -56,7 +60,7 @@ public class Task {
     private Workout workout;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @CreationTimestamp
