@@ -25,7 +25,7 @@ import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
 
-@Table(name = "t_user")
+@Table(name = "t_user", schema = "anafit")
 @Entity
 @Getter
 @Setter

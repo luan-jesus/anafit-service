@@ -27,7 +27,7 @@ public class AuthenticationService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User signup(RegisterUserDto input) {
+    public User register(RegisterUserDto input) {
         User user = User.builder()
                 .fullName(input.getFullName())
                 .email(input.getEmail())

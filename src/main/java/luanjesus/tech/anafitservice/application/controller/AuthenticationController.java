@@ -2,7 +2,6 @@ package luanjesus.tech.anafitservice.application.controller;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import lombok.Value;
 import luanjesus.tech.anafitservice.application.service.AuthenticationService;
 import luanjesus.tech.anafitservice.domain.user.User;
 import luanjesus.tech.anafitservice.infrastructure.service.JwtService;
@@ -24,7 +23,7 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<User> register(@Valid @RequestBody RegisterUserDto registerUserDto) {
-        User registeredUser = authenticationService.signup(registerUserDto);
+        User registeredUser = authenticationService.register(registerUserDto);
 
         return ResponseEntity.ok(registeredUser);
     }
@@ -36,7 +35,10 @@ public class AuthenticationController {
         String jwtToken = jwtService.generateToken(authenticatedUser);
 
         LoginResponseDto loginResponse = LoginResponseDto.builder()
-                .token(jwtToken).expiresIn(jwtService.getExpirationTime()).build();
+                .fullName(authenticatedUser.getFullName())
+                .email(authenticatedUser.getEmail())
+                .token(jwtToken)
+                .expiresIn(jwtService.getExpirationTime()).build();
 
         return ResponseEntity.ok(loginResponse);
     }

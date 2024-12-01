@@ -24,7 +24,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 
-@Table(name = "t_scheduled_task")
+@Table(name = "t_scheduled_task", schema = "anafit")
 @Entity
 @Getter
 @Setter

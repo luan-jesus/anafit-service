@@ -23,7 +23,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.sql.Date;
 import java.util.List;
 
-@Table(name = "t_workout")
+@Table(name = "t_workout", schema = "anafit")
 @Entity
 @Getter
 @Setter
