@@ -1,6 +1,7 @@
 package luanjesus.tech.anafitservice.application.handler;
 
 import lombok.AllArgsConstructor;
+import luanjesus.tech.anafitservice.application.service.exception.DuplicatedUserException;
 import luanjesus.tech.anafitservice.presentation.dto.ResponseDto;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
@@ -34,10 +35,17 @@ public class ApplicationExceptionHanndler {
     }
 
     @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<ResponseDto<Void>> handleValidationExceptions(BadCredentialsException ex) {
+    public ResponseEntity<ResponseDto<Void>> handleValidationException(BadCredentialsException ex) {
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(buildResponseDto(getMessage("auth.bad-credentials")));
+    }
+
+    @ExceptionHandler(DuplicatedUserException.class)
+    public ResponseEntity<ResponseDto<Void>> handleDuplicatedUserException(DuplicatedUserException ex) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(buildResponseDto(getMessage("auth.duplicated-user")));
     }
 
     @ExceptionHandler(Exception.class)

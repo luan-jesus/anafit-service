@@ -1,5 +1,7 @@
 package luanjesus.tech.anafitservice.application.service;
 
+import lombok.AllArgsConstructor;
+import luanjesus.tech.anafitservice.application.service.exception.DuplicatedUserException;
 import luanjesus.tech.anafitservice.domain.user.User;
 import luanjesus.tech.anafitservice.infrastructure.hibernate.repository.UserRepository;
 import luanjesus.tech.anafitservice.presentation.dto.LoginUserDto;
@@ -10,24 +12,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class AuthenticationService {
+
     private final UserRepository userRepository;
-
     private final PasswordEncoder passwordEncoder;
-
     private final AuthenticationManager authenticationManager;
-
-    public AuthenticationService(
-            UserRepository userRepository,
-            AuthenticationManager authenticationManager,
-            PasswordEncoder passwordEncoder
-    ) {
-        this.authenticationManager = authenticationManager;
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+    private final UserService userService;
 
     public User register(RegisterUserDto input) {
+        if (userService.findByEmail(input.getEmail()).isPresent()) {
+            throw new DuplicatedUserException();
+        }
+
         User user = User.builder()
                 .fullName(input.getFullName())
                 .email(input.getEmail())
